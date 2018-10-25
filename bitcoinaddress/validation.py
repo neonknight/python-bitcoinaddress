@@ -75,7 +75,7 @@ def encode_base58(bytestring):
         (n, rest) = divmod(n, 58)
     return zeros * '1' + result[::-1]  # reverse string
 
-def validate(bitcoin_address, magicbyte=0):
+def validate(bitcoin_address, magicbyte=None):
     """Check the integrity of a bitcoin address
 
     Returns False if the address is invalid.
@@ -84,7 +84,9 @@ def validate(bitcoin_address, magicbyte=0):
     >>> validate('')
     False
     """
-    if isinstance(magicbyte, int):
+    if magicbyte is None:
+        magicbyte = ()
+    elif isinstance(magicbyte, int):
         magicbyte = (magicbyte,)
     clen = len(bitcoin_address)
     if clen < 27 or clen > 35: # XXX or 34?
